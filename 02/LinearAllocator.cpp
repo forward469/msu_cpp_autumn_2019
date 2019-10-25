@@ -28,22 +28,19 @@ LinearAllocator::LinearAllocator(size_t maxSize){
 }
 
 char* LinearAllocator::alloc(size_t size){
-    
     if (start == nullptr){
         throw runtime_error("ERROR : Memory is not allocated.");
         return nullptr;
     }
     if (size+Size>MaxSize){ 
-        //cout<<"requested size is larger than MaxSize"<<endl;    
         throw runtime_error("ERROR : Required size is greater MaxSize.");
-        return NULL;
+        return nullptr;
     }
-
     *current +=size;
     Size +=size;
     return current;
-
 }
+
 void LinearAllocator::reset(){
     Size = 0;
     current = start;

@@ -12,7 +12,7 @@ enum Token {
     End
 };
 
-Token get_token(const char *&text) {
+Token get_token(const char* &text) {
     while (const auto c = *text++) {
         switch (c) {
             case ' ':
