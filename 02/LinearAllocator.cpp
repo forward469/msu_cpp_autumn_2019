@@ -1,9 +1,8 @@
 #include <cstdlib>
 #include <iostream>
- using namespace std;
+using namespace std;
 
-class LinearAllocator
-{
+class LinearAllocator{
     char* start;
     char* current;
     size_t MaxSize;
@@ -16,21 +15,28 @@ public:
     size_t maxsize();
     size_t currentsize();
     ~LinearAllocator(); 
-
 };
 
 LinearAllocator::LinearAllocator(size_t maxSize){
     MaxSize = maxSize;
     start = (char*) malloc(sizeof(char) * maxSize);
+    if (start == nullptr){
+        throw runtime_error("ERROR : Memory is not allocated.");
+    }
     current = start;
     Size = 0;
 }
 
 char* LinearAllocator::alloc(size_t size){
-
+    
+    if (start == nullptr){
+        throw runtime_error("ERROR : Memory is not allocated.");
+        return nullptr;
+    }
     if (size+Size>MaxSize){ 
-    cout<<"requested size is larger than MaxSize"<<endl;    
-    return NULL;
+        //cout<<"requested size is larger than MaxSize"<<endl;    
+        throw runtime_error("ERROR : Required size is greater MaxSize.");
+        return NULL;
     }
 
     *current +=size;
@@ -59,17 +65,24 @@ LinearAllocator::~LinearAllocator(){
 
 int main(){
 
-    LinearAllocator Allocator(15);
-    cout<<Allocator.maxsize()<< endl;
-    char* a  = Allocator.alloc(7) ;
-    cout<<"current size = "<<Allocator.currentsize()<<endl;
-    Allocator.alloc(10) ;
-    cout<<"current size = "<<Allocator.currentsize()<<endl;
-    Allocator.reset();
-    cout<<"Max size after reset = "<<Allocator.maxsize()<<endl;
-    cout<<"current after reset = "<<Allocator.currentsize()<<endl;
-    char* b = Allocator.alloc(3);
-    cout<<"curr size = "<<Allocator.currentsize()<<endl;
+    try{
+        LinearAllocator Allocator(30);
+        cout<<Allocator.maxsize()<< endl;
+        char* a  = Allocator.alloc(7) ;
+        cout<<"current size = "<<Allocator.currentsize()<<endl;
+        Allocator.alloc(10) ;
+        cout<<"current size = "<<Allocator.currentsize()<<endl;
+        Allocator.reset();
+        cout<<"Max size after reset = "<<Allocator.maxsize()<<endl;
+        cout<<"current after reset = "<<Allocator.currentsize()<<endl;
+        char* b = Allocator.alloc(3);
+        cout<<"curr size = "<<Allocator.currentsize()<<endl;
+    }
+    catch(runtime_error & error){
+        cerr<<error.what()<<endl;
+        return 1;
+    }
+
     return 0;
 
 }

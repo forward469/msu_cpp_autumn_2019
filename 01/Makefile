@@ -8,6 +8,7 @@ calc.o: calc.cpp
 	$(CC) -c calc.cpp
 clear:
 	rm -rf *.o calc
+	clear
 run:
 	./calc
 test:

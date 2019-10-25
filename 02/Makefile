@@ -9,6 +9,7 @@ LinearAllocator.o: LinearAllocator.cpp
 	$(CC) -c LinearAllocator.cpp
 clear:
 	rm -rf *.o LinearAllocator
+	clear
 run:
 	./LinAllocator
 

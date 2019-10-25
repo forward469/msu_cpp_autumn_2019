@@ -1,5 +1,7 @@
 #include <iostream>
 
+using namespace std;
+
 enum Token {
     Invalid,
     Minus,
@@ -48,11 +50,11 @@ int prim(const char *&text) {
         case Token::Minus:
             return -prim(text);
         case Token::End:
-            throw ("Error: prim expected");
+            throw runtime_error("Error: prim expected");
         case Token::Invalid:
-            throw ("Error: invalid prim");
+            throw runtime_error("Error: invalid prim");
         default:
-            throw ("Wrong formatted input");
+            throw runtime_error("Wrong formatted input");
     }
 }
 
@@ -72,10 +74,10 @@ int term(const char *&text) {
                 if (number != 0)
                     result /= number;
                 else
-                    throw ("Error: null division");
+                    throw runtime_error("Error: null division");
                 break;
             case Token::Invalid:
-                throw ("Error: invalid term");
+                throw runtime_error("Error: invalid term");
             default:
                 --text;
                 return result;
@@ -96,7 +98,7 @@ int expr(const char *&text) {
                 result -= term(text);
                 break;
             case Token::Invalid:
-                throw ("Error: invalid expr");
+                throw runtime_error("Error: invalid expr");
             default:
                 return result;
         }
@@ -115,8 +117,8 @@ int main(int argc, char *argv[]) {
     try {
         std::cout << expr(text) << std::endl;
     }
-    catch (const char *str) {
-        std::cout << str << std::endl;
+    catch (runtime_error &str) {
+        std::cout << str.what() << std::endl;
         return 1;
     }
     return 0;
