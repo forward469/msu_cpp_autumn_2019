@@ -3,6 +3,8 @@
 #include <cassert> 
 #include "matrix.h"
 
+using namespace std;
+
 
 RowMatrix::RowMatrix (double *array, size_t size) {
     _array = array;
@@ -11,20 +13,20 @@ RowMatrix::RowMatrix (double *array, size_t size) {
 
 const double & RowMatrix::operator[] (size_t j) const {
     if (j >= _size) {
-        assert(!"index out of range");
+        throw out_of_range("ERROR: index out of range!"); 
     }
     return _array[j];
 }
 
 double & RowMatrix::operator[] (size_t j) {
     if (j >= _size) {
-        assert(!"index out of range");
+       throw out_of_range("ERROR: index out of range!"); 
     }
     return _array[j];
 }
 
 
-RowMatrix::~RowMatrix() {}
+RowMatrix::~RowMatrix(){}
 
 
 Matrix::Matrix(): _rows(0), _cols(0), _array(nullptr) {}
@@ -39,7 +41,7 @@ Matrix::Matrix(const Matrix & copy_from) {
         _array[i] = copy_from._array[i];
     }
 }
-Matrix Matrix::operator=(const Matrix & move_from) {
+Matrix& Matrix::operator=(const Matrix & move_from) {
     if (this != &move_from) {
         delete _array;
     }
@@ -54,7 +56,7 @@ Matrix Matrix::operator=(const Matrix & move_from) {
 
 const RowMatrix Matrix::operator[] (size_t row_num) const {
     if (row_num >= _rows) {
-        assert(!"index out of range");
+        throw out_of_range("ERROR: index out of range!"); 
     }
  
     return RowMatrix(_array + (row_num * _cols), _cols);
@@ -62,13 +64,13 @@ const RowMatrix Matrix::operator[] (size_t row_num) const {
 
 RowMatrix Matrix::operator[] (size_t row_num) {
     if (row_num >= _rows) {
-        assert(!"index out of range");
+        throw out_of_range("ERROR: index out of range!"); 
     }
 
     return RowMatrix(_array + (row_num * _cols), _cols);
 }
 
-Matrix Matrix::operator*= (double k) {
+Matrix& Matrix::operator*= (double k) {
     for (size_t i = 0; i < _rows * _cols; i++) {
         this->_array[i] *= k;
     }

@@ -40,6 +40,7 @@ void testResult() {
 }
 
 int main(void) {
+    try{
 
     Matrix m(5, 7);
 
@@ -101,7 +102,15 @@ int main(void) {
     }
     endTest();
 //================================================================
-
     testResult();
+
+//================================================================
+// Попытка запроса элемента с несуществующим индексом
+    cout<<m[100][100]<<endl;
+    } 
+    catch(std::out_of_range& err){
+        std::cerr<<err.what()<<endl;
+        return 1;
+    }
     return 0;
 }

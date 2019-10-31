@@ -24,12 +24,12 @@ public:
     Matrix(size_t, size_t);
     Matrix(const Matrix &);
 
-    Matrix operator=(const Matrix &);
+    Matrix& operator=(const Matrix &);
     const RowMatrix operator[] (size_t) const;
     RowMatrix operator[] (size_t);
 
     // Умножение на число
-    Matrix operator*= (double);
+    Matrix& operator*= (double);
     Matrix operator* (double);
     
     // Оператор сравнения
