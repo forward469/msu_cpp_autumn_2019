@@ -107,5 +107,5 @@ size_t Matrix::rows() const {
     return _rows;
 }
 Matrix::~Matrix() {
-    delete _array;
+    delete[] _array;
 }
