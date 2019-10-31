@@ -36,8 +36,8 @@ char* LinearAllocator::alloc(size_t size){
         throw runtime_error("ERROR : Required size is greater MaxSize.");
         return nullptr;
     }
-    *current +=size;
-    Size +=size;
+    current += size;
+    Size += size;
     return current;
 }
 
@@ -65,15 +65,18 @@ int main(){
     try{
         LinearAllocator Allocator(30);
         cout<<Allocator.maxsize()<< endl;
-        char* a  = Allocator.alloc(7) ;
+        char* a = Allocator.alloc(7);
         cout<<"current size = "<<Allocator.currentsize()<<endl;
-        Allocator.alloc(10) ;
+        cout << (int64_t) a << endl;
+        a = Allocator.alloc(10);
         cout<<"current size = "<<Allocator.currentsize()<<endl;
+        cout << (int64_t) a << endl;
         Allocator.reset();
         cout<<"Max size after reset = "<<Allocator.maxsize()<<endl;
         cout<<"current after reset = "<<Allocator.currentsize()<<endl;
         char* b = Allocator.alloc(3);
         cout<<"curr size = "<<Allocator.currentsize()<<endl;
+        cout << (int64_t) b << endl;
     }
     catch(runtime_error & error){
         cerr<<error.what()<<endl;
