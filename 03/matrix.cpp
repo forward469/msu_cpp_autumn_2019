@@ -43,7 +43,7 @@ Matrix::Matrix(const Matrix & copy_from) {
 }
 Matrix& Matrix::operator=(const Matrix & move_from) {
     if (this != &move_from) {
-        delete _array;
+        delete[] _array;
     }
     _rows = move_from._rows;
     _cols = move_from._cols;
