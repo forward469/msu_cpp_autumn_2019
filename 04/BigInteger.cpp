@@ -84,33 +84,33 @@ void BigInteger::operator = (BigInteger b)
 	setSign( b.getSign() );
 }
 //-------------------------------------------------------------
-bool BigInteger::operator == (BigInteger b)
+bool BigInteger::operator == (const BigInteger &b)
 {
 	return equals((*this) , b);
 }
 //-------------------------------------------------------------
-bool BigInteger::operator != (BigInteger &b)
+bool BigInteger::operator != (const BigInteger &b)
 {
 	return ! equals((*this) , b);
 }
 //-------------------------------------------------------------
-bool BigInteger::operator > (BigInteger &b)
+bool BigInteger::operator > (const BigInteger &b)
 {
 	return greater((*this) , b);
 }
 //-------------------------------------------------------------
-bool BigInteger::operator < (BigInteger &b)
+bool BigInteger::operator < (const BigInteger &b)
 {
 	return less((*this) , b);
 }
 //-------------------------------------------------------------
-bool BigInteger::operator >= (BigInteger &b)
+bool BigInteger::operator >= (const BigInteger &b)
 {
 	return equals((*this) , b)
 		|| greater((*this), b);
 }
 //-------------------------------------------------------------
-bool BigInteger::operator <= (BigInteger &b)
+bool BigInteger::operator <= (const BigInteger &b)
 {
 	return equals((*this) , b) 
 		|| less((*this) , b);
@@ -164,18 +164,18 @@ BigInteger::operator string() // Перевод из BigInt в string
 }
 //-------------------------------------------------------------
 // Равенство
-bool BigInteger::equals(BigInteger &n1, BigInteger &n2)
+bool BigInteger::equals(const BigInteger &n1, const BigInteger &n2)
 {
-	return n1.getNumber() == n2.getNumber()
-		&& n1.getSign() == n2.getSign();
+	return n1.number == n2.number
+		&& n1.number == n2.number;
 }
 
 //-------------------------------------------------------------
 // Меньше
-bool BigInteger::less(BigInteger &n1, BigInteger &n2)
+bool BigInteger::less(const BigInteger &n1, const BigInteger &n2)
 {
-	bool sign1 = n1.getSign();
-	bool sign2 = n2.getSign();
+	bool sign1 = n1.sign;
+	bool sign2 = n2.sign;
 
 	if(sign1 && ! sign2) 
 		return true;
@@ -185,24 +185,24 @@ bool BigInteger::less(BigInteger &n1, BigInteger &n2)
 
 	else if(! sign1) 
 	{
-		if(n1.getNumber().length() < n2.getNumber().length() )
+		if(n1.number.length() < n2.number.length() )
 			return true;
-		if(n1.getNumber().length() > n2.getNumber().length() )
+		if(n1.number.length() > n2.number.length() )
 			return false;
-		return n1.getNumber() < n2.getNumber();
+		return (n1.number < n2.number);
 	}
 	else 
 	{
-		if(n1.getNumber().length() > n2.getNumber().length())
+		if(n1.number.length() > n2.number.length())
 			return true;
-		if(n1.getNumber().length() < n2.getNumber().length())
+		if(n1.number.length() < n2.number.length())
 			return false;
-		return n1.getNumber().compare( n2.getNumber() ) > 0; 
+		return n1.number.compare( n2.number ) > 0; 
 	}
 }
 //-------------------------------------------------------------
 // Больше
-bool BigInteger::greater(BigInteger &n1, BigInteger &n2)
+bool BigInteger::greater(const BigInteger &n1, const BigInteger &n2)
 {
 	return ! equals(n1, n2) && ! less(n1, n2);
 }
