@@ -3,7 +3,8 @@
 #include <sstream>
 #include <cmath>
 #include "BigInteger.h"
-#define MAX 10000 // для строк
+
+using namespace std;
 
 BigInteger::BigInteger()
 {
@@ -88,34 +89,34 @@ bool BigInteger::operator == (BigInteger b)
 	return equals((*this) , b);
 }
 //-------------------------------------------------------------
-bool BigInteger::operator != (BigInteger b)
+bool BigInteger::operator != (BigInteger &b)
 {
 	return ! equals((*this) , b);
 }
 //-------------------------------------------------------------
-bool BigInteger::operator > (BigInteger b)
+bool BigInteger::operator > (BigInteger &b)
 {
 	return greater((*this) , b);
 }
 //-------------------------------------------------------------
-bool BigInteger::operator < (BigInteger b)
+bool BigInteger::operator < (BigInteger &b)
 {
 	return less((*this) , b);
 }
 //-------------------------------------------------------------
-bool BigInteger::operator >= (BigInteger b)
+bool BigInteger::operator >= (BigInteger &b)
 {
 	return equals((*this) , b)
 		|| greater((*this), b);
 }
 //-------------------------------------------------------------
-bool BigInteger::operator <= (BigInteger b)
+bool BigInteger::operator <= (BigInteger &b)
 {
 	return equals((*this) , b) 
 		|| less((*this) , b);
 }
 //-------------------------------------------------------------
-BigInteger BigInteger::operator + (BigInteger b)
+BigInteger BigInteger::operator + (BigInteger &b)
 {
 	BigInteger addition;
 	if( getSign() == b.getSign() )
@@ -125,7 +126,8 @@ BigInteger BigInteger::operator + (BigInteger b)
 	}
 	else
 	{
-		if( absolute() > b.absolute() )
+		BigInteger tmp=b.absolute();
+		if( absolute() > tmp )
 		{
 			addition.setNumber( subtract(getNumber(), b.getNumber() ) );
 			addition.setSign( getSign() );
@@ -142,7 +144,7 @@ BigInteger BigInteger::operator + (BigInteger b)
 	return addition;
 }
 //-------------------------------------------------------------
-BigInteger BigInteger::operator - (BigInteger b)
+BigInteger BigInteger::operator - (BigInteger &b)
 {
 	b.setSign( ! b.getSign() ); // x - y = x + (-y)
 	return (*this) + b;
@@ -162,7 +164,7 @@ BigInteger::operator string() // Перевод из BigInt в string
 }
 //-------------------------------------------------------------
 // Равенство
-bool BigInteger::equals(BigInteger n1, BigInteger n2)
+bool BigInteger::equals(BigInteger &n1, BigInteger &n2)
 {
 	return n1.getNumber() == n2.getNumber()
 		&& n1.getSign() == n2.getSign();
@@ -170,7 +172,7 @@ bool BigInteger::equals(BigInteger n1, BigInteger n2)
 
 //-------------------------------------------------------------
 // Меньше
-bool BigInteger::less(BigInteger n1, BigInteger n2)
+bool BigInteger::less(BigInteger &n1, BigInteger &n2)
 {
 	bool sign1 = n1.getSign();
 	bool sign2 = n2.getSign();
@@ -200,7 +202,7 @@ bool BigInteger::less(BigInteger n1, BigInteger n2)
 }
 //-------------------------------------------------------------
 // Больше
-bool BigInteger::greater(BigInteger n1, BigInteger n2)
+bool BigInteger::greater(BigInteger &n1, BigInteger &n2)
 {
 	return ! equals(n1, n2) && ! less(n1, n2);
 }
@@ -302,8 +304,8 @@ int main()
 	BigInteger big_A = 12345;
 	BigInteger big_B("22412515132");
 
-	cout << "BigInt: 12345 + (22412515132) = " <<(string)(big_A + big_B) << endl; // 22 412 527 477
-	cout << "BigInt: (-12345) + (22412515132) = " << (string)(-big_A + big_B) << endl; // 22 412 502 787
+	cout << "BigInt: 12345 + (22412515132) = " <<(string)(big_A + big_B) << endl; // 22 412 527 477
+	cout << "BigInt: (-12345) + (22412515132) = " << (string)(-big_A + big_B) << endl; // 22 412 502 787
 	cout << "BigInt: 12345 > (22412515132) : " << (big_A > big_B) << endl; // False
 	cout << "BigInt: 12345 < (22412515132) : " << (big_A < big_B) << endl; // True
 	cout << "BigInt: 12345 >= (22412515132) : " << (big_A >= big_B) << endl; // False
