@@ -101,7 +101,7 @@ private:
 	
 		if(!isdigit(text[0]))
 			return Error::CorruptedArchive;
-		value = std::stoull(text.c_str());
+		value = std::stoull(text);
         return Error::NoError;
 	}
 	//----------------------------------------------------------------
