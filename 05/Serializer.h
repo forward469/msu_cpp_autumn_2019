@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
+#include <cassert>
 #include <cstdint>
+#include <sstream>
 
 
 enum class Error
@@ -21,7 +23,7 @@ public:
 	//----------------------------------------------------------------
 	template <class... ArgsT>
 	Error operator()(ArgsT&&... args){
-		return process(args...);
+		return process(std::forward<ArgsT>(args)...);
 	}
 	//----------------------------------------------------------------
 
@@ -68,7 +70,7 @@ public:
 	//----------------------------------------------------------------
 	template <class... ArgsT>
 	Error operator()(ArgsT&&... args){
-		return process(args...);
+		return process(std::forward<ArgsT>(args)...);
 	}
 	//----------------------------------------------------------------
 	
